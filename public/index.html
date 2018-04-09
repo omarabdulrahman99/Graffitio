@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+
+		<link rel="stylesheet" href="/css/styles.css">
+	</head>
+	<body>
+
+
+		<form action="/chat.html">
+			<label>Room name</label>
+			<input type="text" name="room">
+			<label>Username</label>
+			<input type="Text" name="username">
+			<button>Submit</button>
+		</form>
+
+
+<div class="signupSection">
+ 
+  <form action="#" method="POST" class="signupForm" name="signupform">
+    <h2>Sign Up</h2>
+    <ul class="noBullet">
+      <li>
+        <label for="username"></label>
+        <input type="text" class="inputFields" id="usernamej" name="username" placeholder="Username" value="" autocomplete="off" oninput="return userNameValidation(this.value)" required/>
+      </li>
+      <li>
+        <label for="password"></label>
+        <input type="password" class="inputFields" id="roomj" name="password" placeholder="Room Name" value="" autocomplete="off" oninput="return passwordValidation(this.value)" required/>
+      </li>
+      
+      <li id="center-btn">
+        <input type="submit" id="join-btn" name="join" alt="Join" value="Join">
+      </li>
+    </ul>
+  </form>
+</div>
+
+
+
+
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+		<script src="/js/libs/jquery-3.3.1.js"></script>
+		<script src="/js/chat.js"></script>
+	</body>
+
+
+
+
+</html>
