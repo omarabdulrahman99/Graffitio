@@ -4,37 +4,64 @@
 	<head>
 
 		<link rel="stylesheet" href="/css/styles.css">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 	</head>
 	<body>
 
 
-		<form action="/chat.html">
-			<label>Room name</label>
-			<input type="text" name="room">
-			<label>Username</label>
-			<input type="Text" name="username">
-			<button>Submit</button>
-		</form>
 
+<div class="roomSection">
+
+
+<table class="table table-hover table-dark">
+  <thead>
+  	<tr>
+  	  <th class="textcenter" colspan="4">AVAILABLE ROOMS</th>
+  	</tr>
+    <tr>
+      <th scope="col"></th>
+      <th scope="col">Room name</th>
+      <th scope="col"># of Users</th>
+      <th scope="col">GIP</th>
+    </tr>
+  </thead>
+  <tbody class="appendhere">
+    <tr>
+      <th scope="row"></th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    
+   
+  </tbody>
+</table>
+
+
+</div>
 
 <div class="signupSection">
  
-  <form action="#" method="POST" class="signupForm" name="signupform">
-    <h2>Sign Up</h2>
+  <form action="#" method="POST" class="signupForm" id="signupForm" name="signupform">
+    <h2>Join Room</h2>
     <ul class="noBullet">
       <li>
         <label for="username"></label>
-        <input type="text" class="inputFields" id="usernamej" name="username" placeholder="Username" value="" autocomplete="off" oninput="return userNameValidation(this.value)" required/>
+        <input type="text" class="inputFields" id="usernamej" name="username" placeholder="Username" value="" autocomplete="off" required/>
       </li>
       <li>
-        <label for="password"></label>
-        <input type="password" class="inputFields" id="roomj" name="password" placeholder="Room Name" value="" autocomplete="off" oninput="return passwordValidation(this.value)" required/>
+        <label for="room"></label>
+        <input type="text" class="inputFields" id="roomj" name="room" placeholder="Room Name" value="" autocomplete="off" required/>
       </li>
       
       <li id="center-btn">
         <input type="submit" id="join-btn" name="join" alt="Join" value="Join">
       </li>
     </ul>
+  </form>
+  <form class="hsignupForm" action="#">
+  	<input type="hidden" class="usernameh">
+  	<input type="hidden" class="roomh">
   </form>
 </div>
 
@@ -44,7 +71,8 @@
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
 		<script src="/js/libs/jquery-3.3.1.js"></script>
-		<script src="/js/chat.js"></script>
+		<script src="/js/libs/deparam.js"></script>
+		<script src="/js/index.js"></script>
 	</body>
 
 

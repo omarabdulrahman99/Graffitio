@@ -19,7 +19,10 @@ var rooms = new Rooms();
 app.use(express.static(publicPath));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
+app.set('view engine', 'pug');
+app.set('views', './views');
 
+rooms.rooms.push({name:'dogs',type:1, users: [], team1users:[], team2users:[], team1p:0, team2p:0 , gip:false});
 rooms.rooms.push({name:'dogs',type:1, users: [], team1users:[], team2users:[], team1p:0, team2p:0 , gip:false});
 
 io.on('connection', (socket) => {
@@ -27,68 +30,81 @@ io.on('connection', (socket) => {
 
 	socket.on('join', (params) => {
 
-
-
-		
-
-
+		console.log('joinfirst');
 		socket.join(params.room);	
 		users.removeUser(socket.id);
 		users.addUser(socket.id, params.username, params.room);
 		rooms.addUser(socket.id, params.username, params.room);
 		io.to(params.room).emit('updateUserList', users.getUserList(params.room));
-		io.emit('updateRoomList', rooms.rooms);
 		socket.emit('newMessage', {name:'Admin', text:'Welcome to the chat app'});
 		socket.broadcast.to(params.room).emit('newMessage', {name:'Admin', text: params.username + ' has joined'})
+		console.log('joinsecond');
+		io.emit('updateRoomList', {roomlist:rooms.rooms});
 
 		
 		
-
-
-
-
 
 	})
 
-	socket.on('joinj', (data) => {
-
-
-	   
-
-		
-		
-
-
-
-	})
 
 	socket.on('createMessage', (message) => {
 
-		io.to(message.room).emit('newMessage', {text:message.text, name: message.username});
+
+		var user = users.users.filter((user) => user.id === socket.id);
+		
+		io.to(user[0].room).emit('newMessage', {text:message.text, name: user[0].name});
 
 
 	})
 
+	socket.on('socketusercheck', function(){
+
+		console.log('usercheck');
+		var user = users.users.filter((user) => user.id === socket.id);
+		
+		if((user.length > 0) && (user[0].name != null) && (user[0].room != null)){
+
+			socket.emit('validstatus', {validstatus:true});
+
+	}else{
+		socket.emit('validstatus', {validstatus:false});
+	}
+
+
+
+	})
+
+	socket.on('disconnect', function(){
+
+		console.log('disconnected this: ' + socket.id);
+		rooms.removeUser(socket.id);
+		users.removeUser(socket.id);
+		io.emit('updateRoomList', {roomlist:rooms.rooms});
+	
+	})
+
+
+})
+
+
+
+app.post('/rooms', function(req,res){
+
+	res.send({rooms: rooms.rooms});
 
 
 })
 
 app.post('/join', function(req,res){
 
-	console.log('postjoin');
+	
 	var roomsearch = rooms.rooms.filter((room) => room.name === req.body.roomj)
-	console.log(req.body.roomj+'roomj');
-		if(roomsearch.length > 0){
+	
 
-			console.log(roomsearch);
-			if(roomsearch[0].type === 1){
+			
+			res.send({roomsearch, usernamej:req.body.usernamej});
 
-				console.log('postjoin2');
-				console.log('lol' + path.join(__dirname, '../public/chat.html');
-				res.sendFile(path.join(__dirname, '../public/chat.html'));
-			}
 
-		}
 
 })
 
