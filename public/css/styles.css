@@ -46,6 +46,9 @@ body {
 
 }
 
+
+
+
 .roomSection {
   
   background-repeat: no-repeat;
@@ -70,6 +73,31 @@ body {
   color:red;
   text-align: center;
   margin: 0 auto;
+}
+
+.createRoomSection {
+  
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 18%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 450px;
+  text-align: center;
+  display: flex;
+  color: white;
+  box-shadow: 3px 10px 20px 5px rgba(0, 0, 0, .5);
+}
+
+.createRoomForm {
+  width: 100%;
+  padding: 30px 0;
+  background: rgba(20, 40, 40, .8);
+  transition: .2s;
+  h2 {
+    font-weight: 300;
+  }
 }
 
 .signupSection {
@@ -130,7 +158,7 @@ body {
   background: rgba(20, 20, 20, .6);
   font-size: 18px;
   color: white;
-  margin-top: 20px;
+  margin-top: 30%;
   padding: 10px 50px;
   cursor: pointer;
   transition: .4s;
@@ -140,3 +168,17 @@ body {
   }
 }
 
+#join-btn2 {
+  border: 1px solid rgba(10, 180, 180, 1);
+  background: rgba(20, 20, 20, .6);
+  font-size: 18px;
+  color: white;
+  margin-top: 95px;
+  padding: 10px 50px;
+  cursor: pointer;
+  transition: .4s;
+  &:hover {
+    background: rgba(20, 20, 20, .8);
+    padding: 10px 80px;
+  }
+}

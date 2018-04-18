@@ -24,7 +24,7 @@ class Rooms {
 		var user = {id,name,room};
 
 		this.rooms.forEach(function(currval,index,array){
-			console.log(currval+'currval');
+			
 			if(currval.name == room){
 				array[index].users.push(user);
 			}
@@ -36,18 +36,50 @@ class Rooms {
 	}
 
 	removeUser(id){
-
+		var croom;
 		this.rooms.forEach(function(currval,index,array){
 
 			for(var i=0;i<currval.users.length;i++){
 				if(currval.users[i].id == id){
+					
 					currval.users.splice(i,1);
 				}
 			}
 
-
+			
 		})
 		//console.log(util.inspect(this.rooms, {showHidden: false, depth: null}));
+	}
+
+	checkRemove(){
+		var roomms = this.rooms;
+		this.rooms.forEach(function(currval,index,array){
+			
+			if(currval.users.length == 0){
+				console.log(array[index].name+'currroomtosplice');
+				roomms.splice(index,1);
+			}
+
+		})
+
+		this.rooms = roomms;
+		return this.rooms
+
+	}
+
+	checkRoomExists(rname){
+		
+		var exists = this.rooms.filter((room) => room.name == rname);
+		if(exists.length > 0){
+
+			return true;
+		}
+		else{
+			return false;
+		}
+
+
+
 	}
 
 

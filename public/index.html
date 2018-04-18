@@ -26,12 +26,7 @@
     </tr>
   </thead>
   <tbody class="appendhere">
-    <tr>
-      <th scope="row"></th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
+    
     
    
   </tbody>
@@ -63,6 +58,41 @@
   	<input type="hidden" class="usernameh">
   	<input type="hidden" class="roomh">
   </form>
+</div>
+
+
+<div class="createRoomSection">
+ 
+  <form action="#" method="POST" class="createRoomForm" id="signupForm" name="signupform">
+    <h2>Create Room</h2>
+    <ul class="noBullet">
+      <li>
+        <label for="username"></label>
+        <input type="text" class="inputFields" id="usernamec" name="username" placeholder="Username" value="" autocomplete="off" required/>
+      </li>
+      <li>
+        <label for="room"></label>
+        <input type="text" class="inputFields" id="roomc" name="room" placeholder="Room Name" value="" autocomplete="off" required/>
+      </li>
+      <select class="roomtypes">
+      	<option value="1">1v1</option>
+      	<option value="2">2v2</option>
+      	<option value="3">3v3</option>
+      </select>
+      
+      <li id="center-btn">
+        <input type="submit" id="join-btn2" name="join" alt="Join" value="Join">
+      </li>
+    </ul>
+  </form>
+  <form class="hsignupForm" action="#">
+  	<input type="hidden" class="usernameh">
+  	<input type="hidden" class="roomh">
+  </form>
+  <form class="csignupForm" action="#">
+  	<input type="hidden" class="usernamec">
+  	<input type="hidden" class="roomc">
+  	<input type="hidden" class="roomtype">
 </div>
 
 

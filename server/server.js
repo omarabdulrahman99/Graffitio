@@ -3,6 +3,7 @@ const socketIO = require('socket.io');
 const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
+const util = require('util');
 
 var publicPath = path.join(__dirname, '../public');
 var port = process.env.PORT || 3000;
@@ -22,23 +23,23 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine', 'pug');
 app.set('views', './views');
 
-rooms.rooms.push({name:'dogs',type:1, users: [], team1users:[], team2users:[], team1p:0, team2p:0 , gip:false});
-rooms.rooms.push({name:'dogs',type:1, users: [], team1users:[], team2users:[], team1p:0, team2p:0 , gip:false});
+
 
 io.on('connection', (socket) => {
 
 
 	socket.on('join', (params) => {
 
-		console.log('joinfirst');
+		
 		socket.join(params.room);	
 		users.removeUser(socket.id);
 		users.addUser(socket.id, params.username, params.room);
 		rooms.addUser(socket.id, params.username, params.room);
+		console.log('user joined room');
 		io.to(params.room).emit('updateUserList', users.getUserList(params.room));
 		socket.emit('newMessage', {name:'Admin', text:'Welcome to the chat app'});
 		socket.broadcast.to(params.room).emit('newMessage', {name:'Admin', text: params.username + ' has joined'})
-		console.log('joinsecond');
+		
 		io.emit('updateRoomList', {roomlist:rooms.rooms});
 
 		
@@ -59,7 +60,7 @@ io.on('connection', (socket) => {
 
 	socket.on('socketusercheck', function(){
 
-		console.log('usercheck');
+		
 		var user = users.users.filter((user) => user.id === socket.id);
 		
 		if((user.length > 0) && (user[0].name != null) && (user[0].room != null)){
@@ -75,11 +76,25 @@ io.on('connection', (socket) => {
 	})
 
 	socket.on('disconnect', function(){
-
-		console.log('disconnected this: ' + socket.id);
+		var roomz;
 		rooms.removeUser(socket.id);
 		users.removeUser(socket.id);
-		io.emit('updateRoomList', {roomlist:rooms.rooms});
+		setTimeout(function(){
+			roomz = rooms.checkRemove(); 
+			console.log('roomremove');
+			if(typeof roomz != 'undefined'){
+			console.log('its not undefined');
+			console.log(util.inspect(roomz, {showHidden: false, depth: null}));
+			io.emit('updateRoomList', {roomlist:roomz});
+			}else{
+			console.log('it is undefined');
+			io.emit('updateRoomList', {roomlist:rooms.rooms});
+			}
+
+
+		}, 1000);
+		
+		
 	
 	})
 
@@ -98,12 +113,58 @@ app.post('/rooms', function(req,res){
 app.post('/join', function(req,res){
 
 	
-	var roomsearch = rooms.rooms.filter((room) => room.name === req.body.roomj)
+	var roomsearch = rooms.rooms.filter((room) => room.name == req.body.roomj);
+	var usersearch = users.users.filter((user) => user.name == req.body.usernamej);
+	console.log(usersearch + "usersearchjoin");
+	if((roomsearch.length == 0) || (usersearch.length > 0) ){
+
+		console.log('justerrorsent');
+		if(roomsearch.length == 0){
+			res.send({errorm:"Room does not exist."})
+		}
+		if(usersearch.length > 0){
+			res.send({erroru:"Username already exists."})
+		}
+
+	}else{
+		console.log('wtfsendtheroomsearch');
+		res.send({roomsearch, usernamej:req.body.usernamej});
+	}
+
+
+})
+
+app.post('/createroom', function(req,res){
+
+	var usersearch = users.users.filter((user) => user.name == req.body.usernamej);
+	var roomsearch = rooms.rooms.filter((room) => room.name == req.body.roomj);
+	var errorcmsg;
+	var errorcumsg;
+	if((roomsearch.length > 0) || usersearch.length > 0 ) {
+
+		if(roomsearch.length > 0){
+
+			errorcmsg = "Room already exists";
+		}
+		if(usersearch.length > 0){
+
+			errorcumsg = "Username already exists.";
+		}
+
+		res.send({errorc:errorcmsg, errorcu:errorcumsg});
+
+		
+	}else{
+
+		rooms.addRoom(req.body.roomj , req.body.roomtc);
+		console.log('roomadded');
+		var roomsearch = rooms.rooms.filter((room) => room.name == req.body.roomj);
+		io.emit('updateRoomList', {roomlist:rooms.rooms});
+
+		res.send({roomsearch, usernamej:req.body.usernamej});
+	}
+
 	
-
-			
-			res.send({roomsearch, usernamej:req.body.usernamej});
-
 
 
 })
