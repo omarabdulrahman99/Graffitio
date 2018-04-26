@@ -24,7 +24,7 @@ app.set('view engine', 'pug');
 app.set('views', './views');
 
 
-
+var line_history = [];
 io.on('connection', (socket) => {
 
 
@@ -46,6 +46,17 @@ io.on('connection', (socket) => {
 		
 
 	})
+
+	socket.on('draw_line', function (data) {
+
+	   for (var i in line_history) {
+
+      socket.emit('draw_line', { line: line_history[i] } );
+   	}
+      // send line to all clients
+      io.emit('draw_line', { line: data.line });
+
+   })
 
 
 	socket.on('createMessage', (message) => {
